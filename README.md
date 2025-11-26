@@ -6,7 +6,7 @@ With this extension you can simply press the Karakeep Button next to an article 
 ## Download and setup
 1. Download the [latest release](https://github.com/veverkap/xExtension-karakeep-button/releases)
 2. Extract and upload it to the `./extensions` folder of your FreshRSS installation
-3. Go to your Karakeep instance Settings -> API Keys
+3. Go to your Karakeep instance User Settings -> API Keys
 4. Create a new API key
 5. Enter your Karakeep instance url in the Karakeep Button extension settings
 6. Enter your API key in the Karakeep Button extension settings

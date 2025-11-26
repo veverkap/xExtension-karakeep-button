@@ -1,7 +1,7 @@
 {
   "name": "Karakeep Button",
-  "author": "Joedmin",
-  "description": "Add FreshRSS articles to Karakeep with one simple button click or a keyboard shortcut.",
+  "author": "veverkap",
+  "description": "Add FreshRSS articles to Karakeep with one simple button click/keyboard shortcut.",
   "version": 0.11,
   "entrypoint": "KarakeepButton",
   "type": "user"

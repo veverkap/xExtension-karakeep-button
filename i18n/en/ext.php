@@ -5,7 +5,7 @@ return array(
     'configure' => array(
       'api_token' => 'API token',
       'api_token_description' => '<ul class="listedNumbers">
-        <li>Go to your Karakeep instance and navigate to \'<c>Settings -> API Keys</c>\'</li>
+        <li>Go to your Karakeep instance and navigate to \'<c>User Settings -> API Keys</c>\'</li>
         <li>Create a new API key</li>
         <li>Enter your Karakeep instance url and API token and hit \'Connect to Karakeep\'</li>
       </ul>
