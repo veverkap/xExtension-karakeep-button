@@ -46,7 +46,7 @@ class FreshExtension_karakeepButton_Controller extends Minz_ActionController
     FreshRSS_Context::userConf()->_attribute('karakeep_api_token', $api_token);
     FreshRSS_Context::userConf()->save();
 
-    $result = $this->curlGetRequest('/users/whoami');
+    $result = $this->curlGetRequest('/users/me');
     if ($result['status'] == 200) {
       FreshRSS_Context::userConf()->_attribute('karakeep_username', $result['response']->name);
       FreshRSS_Context::userConf()->save();
@@ -87,6 +87,7 @@ class FreshExtension_karakeepButton_Controller extends Minz_ActionController
     $post_data = array(
       'type' => 'link',
       'url' => $entry->link(),
+      'source' => 'rss',
     );
 
     // Errors are handled in the JS
