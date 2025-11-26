@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <!-- Rounded rectangle outline -->
+  <rect x="15" y="15" width="210" height="210" rx="40" ry="40" fill="none" stroke="#666666" stroke-width="12"/>
+  <!-- Left bookmark bar outline -->
+  <rect x="55" y="45" width="45" height="150" rx="5" ry="5" fill="none" stroke="#666666" stroke-width="8"/>
+  <!-- Right bookmark with notch outline -->
+  <path d="M120 45 L120 170 L142.5 150 L165 170 L165 45 Z" fill="none" stroke="#666666" stroke-width="8" stroke-linejoin="round"/>
+</svg>

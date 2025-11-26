@@ -1,6 +1,6 @@
 <?php
 
-class ReadeckButtonExtension extends Minz_Extension
+class KarakeepButtonExtension extends Minz_Extension
 {
   #[\Override]
   public function init()
@@ -9,9 +9,9 @@ class ReadeckButtonExtension extends Minz_Extension
 
     Minz_View::appendScript($this->getFileUrl('script.js', 'js'), false, false, false);
     Minz_View::appendStyle($this->getFileUrl('style.css', 'css'));
-    Minz_View::appendScript(strval(_url('readeckButton', 'jsVars')), false, true, false);
+    Minz_View::appendScript(strval(_url('karakeepButton', 'jsVars')), false, true, false);
 
-    $this->registerController('readeckButton');
+    $this->registerController('karakeepButton');
     $this->registerViews();
   }
 
@@ -21,7 +21,7 @@ class ReadeckButtonExtension extends Minz_Extension
     $this->registerTranslates();
     if (Minz_Request::isPost()) {
       $keyboard_shortcut = Minz_Request::paramString('keyboard_shortcut');
-      FreshRSS_Context::userConf()->_attribute('readeck_shortcut', $keyboard_shortcut);
+      FreshRSS_Context::userConf()->_attribute('karakeep_shortcut', $keyboard_shortcut);
       FreshRSS_Context::userConf()->save();
     }
   }

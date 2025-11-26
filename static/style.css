@@ -1,16 +1,16 @@
-.notification.readeck_button_good,
-.notification.readeck_button_bad {
+.notification.karakeep_button_good,
+.notification.karakeep_button_bad {
   position: fixed;
   color: #fff;
   left: 20%;
   right: 20%;
 }
 
-.notification.readeck_button_bad {
+.notification.karakeep_button_bad {
   background: #e74c3c;
 }
 
-.notification.readeck_button_good {
+.notification.karakeep_button_good {
   background: #1abc9c;
 }
 
@@ -26,7 +26,7 @@ input#keyboard_shortcut {
   list-style-type: decimal;
 }
 
-.item-element.readeckButton .disabled {
+.item-element.karakeepButton .disabled {
   display: none !important;
 }
 

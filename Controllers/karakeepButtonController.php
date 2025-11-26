@@ -1,32 +1,32 @@
 <?php
 
-class FreshExtension_readeckButton_Controller extends Minz_ActionController
+class FreshExtension_karakeepButton_Controller extends Minz_ActionController
 {
-  /** @var ReadeckButton\View */
+  /** @var KarakeepButton\View */
   protected $view;
 
   public function jsVarsAction(): void
   {
-    $extension = Minz_ExtensionManager::findExtension('Readeck Button');
-    $this->view->readeck_button_vars = json_encode(array(
-      'instance_url' => FreshRSS_Context::userConf()->attributeString('readeck_instance_url'),
-      'keyboard_shortcut' => FreshRSS_Context::userConf()->hasParam("readeck_shortcut")
-        ? FreshRSS_Context::userConf()->attributeString('readeck_shortcut')
+    $extension = Minz_ExtensionManager::findExtension('Karakeep Button');
+    $this->view->karakeep_button_vars = json_encode(array(
+      'instance_url' => FreshRSS_Context::userConf()->attributeString('karakeep_instance_url'),
+      'keyboard_shortcut' => FreshRSS_Context::userConf()->hasParam("karakeep_shortcut")
+        ? FreshRSS_Context::userConf()->attributeString('karakeep_shortcut')
         : '',
       'icons' => array(
-        'added_to_readeck' => $extension->getFileUrl('added_to_readeck.svg', 'svg'),
+        'added_to_karakeep' => $extension->getFileUrl('added_to_karakeep.svg', 'svg'),
       ),
       'i18n' => array(
-        'added_article_to_readeck' => _t('ext.readeckButton.notifications.added_article_to_readeck', '%s'),
-        'failed_to_add_article_to_readeck' => _t('ext.readeckButton.notifications.failed_to_add_article_to_readeck', '%s'),
-        'ajax_request_failed' => _t('ext.readeckButton.notifications.ajax_request_failed'),
-        'article_not_found' => _t('ext.readeckButton.notifications.article_not_found'),
-        'relog_required' => _t('ext.readeckButton.notifications.relog_required'),
+        'added_article_to_karakeep' => _t('ext.karakeepButton.notifications.added_article_to_karakeep', '%s'),
+        'failed_to_add_article_to_karakeep' => _t('ext.karakeepButton.notifications.failed_to_add_article_to_karakeep', '%s'),
+        'ajax_request_failed' => _t('ext.karakeepButton.notifications.ajax_request_failed'),
+        'article_not_found' => _t('ext.karakeepButton.notifications.article_not_found'),
+        'relog_required' => _t('ext.karakeepButton.notifications.relog_required'),
       )
     ));
 
     $this->view->_layout(null);
-    $this->view->_path('readeckButton/vars.js');
+    $this->view->_path('karakeepButton/vars.js');
 
     header('Content-Type: application/javascript; charset=utf-8');
   }
@@ -42,32 +42,32 @@ class FreshExtension_readeckButton_Controller extends Minz_ActionController
       $instance_url = substr($instance_url, 0, -1);
     }
 
-    FreshRSS_Context::userConf()->_attribute('readeck_instance_url', $instance_url);
-    FreshRSS_Context::userConf()->_attribute('readeck_api_token', $api_token);
+    FreshRSS_Context::userConf()->_attribute('karakeep_instance_url', $instance_url);
+    FreshRSS_Context::userConf()->_attribute('karakeep_api_token', $api_token);
     FreshRSS_Context::userConf()->save();
 
-    $result = $this->curlGetRequest('/profile');
+    $result = $this->curlGetRequest('/users/me');
     if ($result['status'] == 200) {
-      FreshRSS_Context::userConf()->_attribute('readeck_username', $result['response']->user->username);
+      FreshRSS_Context::userConf()->_attribute('karakeep_username', $result['response']->name);
       FreshRSS_Context::userConf()->save();
 
-      $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Readeck Button'));
-      Minz_Request::good(_t('ext.readeckButton.notifications.authorized_success'), $url_redirect);
+      $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Karakeep Button'));
+      Minz_Request::good(_t('ext.karakeepButton.notifications.authorized_success'), $url_redirect);
       return;
     }
 
-    $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Readeck Button'));
-    Minz_Request::bad(_t('ext.readeckButton.notifications.request_access_failed', $result['status']), $url_redirect);
+    $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Karakeep Button'));
+    Minz_Request::bad(_t('ext.karakeepButton.notifications.request_access_failed', $result['status']), $url_redirect);
   }
 
   public function revokeAccessAction(): void
   {
-    FreshRSS_Context::userConf()->_attribute('readeck_instance_url');
-    FreshRSS_Context::userConf()->_attribute('readeck_api_token');
-    FreshRSS_Context::userConf()->_attribute('readeck_username');
+    FreshRSS_Context::userConf()->_attribute('karakeep_instance_url');
+    FreshRSS_Context::userConf()->_attribute('karakeep_api_token');
+    FreshRSS_Context::userConf()->_attribute('karakeep_username');
     FreshRSS_Context::userConf()->save();
 
-    $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Readeck Button'));
+    $url_redirect = array('c' => 'extension', 'a' => 'configure', 'params' => array('e' => 'Karakeep Button'));
     Minz_Request::forward($url_redirect);
   }
 
@@ -85,7 +85,9 @@ class FreshExtension_readeckButton_Controller extends Minz_ActionController
     }
 
     $post_data = array(
+      'type' => 'link',
       'url' => $entry->link(),
+      'source' => 'rss',
     );
 
     // Errors are handled in the JS
@@ -99,10 +101,10 @@ class FreshExtension_readeckButton_Controller extends Minz_ActionController
    */
   private function getRequestHeaders(): array
   {
-    $api_token = FreshRSS_Context::userConf()->attributeString('readeck_api_token');
+    $api_token = FreshRSS_Context::userConf()->attributeString('karakeep_api_token');
     return array(
       'Content-Type: application/json; charset=UTF-8',
-      'X-Accept: application/json',
+      'Accept: application/json',
       "Authorization: Bearer " . $api_token,
     );
   }
@@ -126,8 +128,8 @@ class FreshExtension_readeckButton_Controller extends Minz_ActionController
    */
   private function curlGetRequest(string $endpoint): array
   {
-    $instance_url = FreshRSS_Context::userConf()->attributeString('readeck_instance_url');
-    $curl = $this->getCurlBase($instance_url . "/api" . $endpoint);
+    $instance_url = FreshRSS_Context::userConf()->attributeString('karakeep_instance_url');
+    $curl = $this->getCurlBase($instance_url . "/api/v1" . $endpoint);
 
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
 
@@ -150,9 +152,8 @@ class FreshExtension_readeckButton_Controller extends Minz_ActionController
    */
   private function curlPostRequest(string $endpoint, array $post_data): array
   {
-    $instance_url = FreshRSS_Context::userConf()->attributeString('readeck_instance_url');
-    $curl = $this->getCurlBase($instance_url . "/api" . $endpoint);
-    curl_setopt($curl, CURLOPT_POST, true);
+    $instance_url = FreshRSS_Context::userConf()->attributeString('karakeep_instance_url');
+    $curl = $this->getCurlBase($instance_url . "/api/v1" . $endpoint);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_data));
 

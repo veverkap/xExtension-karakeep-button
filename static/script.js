@@ -8,18 +8,18 @@ if (document.readyState && document.readyState !== 'loading')
 
 async function documentReady()
 {
-  var readeckButtons = document.querySelectorAll('#stream .flux a.readeckButton');
-  for (var i = 0; i < readeckButtons.length; i++)
+  var karakeepButtons = document.querySelectorAll('#stream .flux a.karakeepButton');
+  for (var i = 0; i < karakeepButtons.length; i++)
   {
-    let readeckButton = readeckButtons[i];
-    readeckButton.addEventListener('click', async function (e)
+    let karakeepButton = karakeepButtons[i];
+    karakeepButton.addEventListener('click', async function (e)
     {
-      if (!readeckButton)
+      if (!karakeepButton)
       {
         return;
       }
 
-      var active = readeckButton.closest(".flux");
+      var active = karakeepButton.closest(".flux");
       if (!active)
       {
         return;
@@ -28,11 +28,11 @@ async function documentReady()
       e.preventDefault();
       e.stopPropagation();
 
-      await add_to_readeck(readeckButton, active);
+      await add_to_karakeep(karakeepButton, active);
     }, false);
   }
 
-  if (readeck_button_vars.keyboard_shortcut)
+  if (karakeep_button_vars.keyboard_shortcut)
   {
     document.addEventListener('keydown', function (e)
     {
@@ -41,7 +41,7 @@ async function documentReady()
         return;
       }
 
-      if (e.key === readeck_button_vars.keyboard_shortcut)
+      if (e.key === karakeep_button_vars.keyboard_shortcut)
       {
         var active = document.querySelector("#stream .flux.active");
         if (!active)
@@ -49,40 +49,40 @@ async function documentReady()
           return;
         }
 
-        var readeckButton = active.querySelector("a.readeckButton");
-        if (!readeckButton)
+        var karakeepButton = active.querySelector("a.karakeepButton");
+        if (!karakeepButton)
         {
           return;
         }
 
-        add_to_readeck(readeckButton, active);
+        add_to_karakeep(karakeepButton, active);
       }
     });
   }
 }
 
-function requestFailed(activeId, readeckButtonImg, loadingAnimation)
+function requestFailed(activeId, karakeepButtonImg, loadingAnimation)
 {
   delete pending_entries[activeId];
 
-  readeckButtonImg.classList.remove("disabled");
+  karakeepButtonImg.classList.remove("disabled");
   loadingAnimation.classList.add("disabled");
 
   badAjax(this.status == 403);
 }
 
-async function add_to_readeck(readeckButton, active)
+async function add_to_karakeep(karakeepButton, active)
 {
-  const url = readeckButton.getAttribute("href");
+  const url = karakeepButton.getAttribute("href");
   if (!url)
   {
     return;
   }
 
-  let readeckButtonImg = readeckButton.querySelector("img");
-  readeckButtonImg.classList.add("disabled");
+  let karakeepButtonImg = karakeepButton.querySelector("img");
+  karakeepButtonImg.classList.add("disabled");
 
-  let loadingAnimation = readeckButton.querySelector(".lds-dual-ring");
+  let loadingAnimation = karakeepButton.querySelector(".lds-dual-ring");
   loadingAnimation.classList.remove("disabled");
 
   let activeId = active.getAttribute('id');
@@ -108,25 +108,25 @@ async function add_to_readeck(readeckButton, active)
     {
       delete pending_entries[activeId];
 
-      readeckButtonImg.classList.remove("disabled");
+      karakeepButtonImg.classList.remove("disabled");
       loadingAnimation.classList.add("disabled");
 
       if (!response.ok)
       {
-        requestFailed(activeId, readeckButtonImg, loadingAnimation);
-        openNotification(readeck_button_vars.i18n.failed_to_add_article_to_readeck.replace('%s', json.errorCode), 'readeck_button_bad');
+        requestFailed(activeId, karakeepButtonImg, loadingAnimation);
+        openNotification(karakeep_button_vars.i18n.failed_to_add_article_to_karakeep.replace('%s', json.errorCode), 'karakeep_button_bad');
         return;
       }
 
       let json = await response.json();
       if (!json)
       {
-        requestFailed(activeId, readeckButtonImg, loadingAnimation);
-        openNotification(readeck_button_vars.i18n.failed_to_add_article_to_readeck.replace('%s', json.errorCode), 'readeck_button_bad');
+        requestFailed(activeId, karakeepButtonImg, loadingAnimation);
+        openNotification(karakeep_button_vars.i18n.failed_to_add_article_to_karakeep.replace('%s', json.errorCode), 'karakeep_button_bad');
         return;
       }
 
-      console.log(readeck_button_vars);
+      console.log(karakeep_button_vars);
       console.log(json.errorCode);
 
       switch (json.errorCode)
@@ -135,24 +135,24 @@ async function add_to_readeck(readeckButton, active)
         case 201:
         case 202:
         case 301:
-          readeckButtonImg.setAttribute("src", readeck_button_vars.icons.added_to_readeck);
-          openNotification(readeck_button_vars.i18n.added_article_to_readeck.replace('%s', json.response.title), 'readeck_button_good');
+          karakeepButtonImg.setAttribute("src", karakeep_button_vars.icons.added_to_karakeep);
+          openNotification(karakeep_button_vars.i18n.added_article_to_karakeep.replace('%s', json.response.title), 'karakeep_button_good');
           break;
 
         case 401:
-          openNotification(readeck_button_vars.i18n.relog_required, 'readeck_button_bad');
+          openNotification(karakeep_button_vars.i18n.relog_required, 'karakeep_button_bad');
           break;
 
         case 404:
-          openNotification(readeck_button_vars.i18n.article_not_found, 'readeck_button_bad');
+          openNotification(karakeep_button_vars.i18n.article_not_found, 'karakeep_button_bad');
           break;
 
         case 500:
-          openNotification(readeck_button_vars.i18n.failed_to_add_article_to_readeck, 'readeck_button_bad');
+          openNotification(karakeep_button_vars.i18n.failed_to_add_article_to_karakeep, 'karakeep_button_bad');
           break;
 
         default:
-          requestFailed(activeId, readeckButtonImg, loadingAnimation);
+          requestFailed(activeId, karakeepButtonImg, loadingAnimation);
           break;
       }
     });

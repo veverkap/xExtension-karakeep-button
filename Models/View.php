@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ReadeckButton;
+namespace KarakeepButton;
 
 final class View extends \Minz_View {
 
-  public string $readeck_button_vars = '';
+  public string $karakeep_button_vars = '';
 
 }

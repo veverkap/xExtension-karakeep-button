@@ -1,17 +1,17 @@
 <?php
 
 declare(strict_types=1);
-/** @var ReadeckButtonExtension $this */
-$instance_url = FreshRSS_Context::userConf()->attributeString('readeck_instance_url');
-$api_token = FreshRSS_Context::userConf()->attributeString('readeck_api_token');
-$username = FreshRSS_Context::userConf()->attributeString('readeck_username');
-$keyboard_shortcut = FreshRSS_Context::userConf()->attributeString('readeck_shortcut');
+/** @var KarakeepButtonExtension $this */
+$instance_url = FreshRSS_Context::userConf()->attributeString('karakeep_instance_url');
+$api_token = FreshRSS_Context::userConf()->attributeString('karakeep_api_token');
+$username = FreshRSS_Context::userConf()->attributeString('karakeep_username');
+$keyboard_shortcut = FreshRSS_Context::userConf()->attributeString('karakeep_shortcut');
 ?>
 
 <form action="<?= _url('extension', 'configure', 'e', urlencode($this->getName())); ?>" method="post">
   <input type="hidden" name="_csrf" value="<?= FreshRSS_Auth::csrfToken(); ?>" />
   <div class="form-group">
-    <label class="group-name" for="keyboard_shortcut"><?= _t('ext.readeckButton.configure.keyboard_shortcut'); ?></label>
+    <label class="group-name" for="keyboard_shortcut"><?= _t('ext.karakeepButton.configure.keyboard_shortcut'); ?></label>
     <div class="group-controls">
       <input type="text" name="keyboard_shortcut" id="keyboard_shortcut" maxlength="1" value="<?= $keyboard_shortcut; ?>">
     </div>
@@ -25,44 +25,44 @@ $keyboard_shortcut = FreshRSS_Context::userConf()->attributeString('readeck_shor
 </form>
 
 <?php if ($this->isEnabled() && (empty($username) || empty($api_token) || empty($instance_url))) : ?>
-  <form action="<?= _url('readeckButton', 'requestAccess'); ?>" method="post">
+  <form action="<?= _url('karakeepButton', 'requestAccess'); ?>" method="post">
     <input type="hidden" name="_csrf" value="<?= FreshRSS_Auth::csrfToken(); ?>" />
     <div class="form-group">
-      <label class="group-name" for="instance_url"><?= _t('ext.readeckButton.configure.instance_url'); ?></label>
+      <label class="group-name" for="instance_url"><?= _t('ext.karakeepButton.configure.instance_url'); ?></label>
       <div class="group-controls">
         <input type="url" name="instance_url" id="instance_url" title="Please enter a valid URL starting with http:// or https://" value="<?= $instance_url; ?>" required>
       </div>
-      <label class="group-name" for="api_token"><?= _t('ext.readeckButton.configure.api_token'); ?></label>
+      <label class="group-name" for="api_token"><?= _t('ext.karakeepButton.configure.api_token'); ?></label>
       <div class="group-controls">
         <input type="password" name="api_token" id="api_token" value="<?= $api_token; ?>" required>
       </div>
     </div>
 
     <div class="alert alert-warn">
-      <?= _t('ext.readeckButton.configure.api_token_description'); ?>
+      <?= _t('ext.karakeepButton.configure.api_token_description'); ?>
     </div>
 
     <div class="form-group form-actions">
       <div class="group-controls">
-        <button type="submit" class="btn btn-important"><?= _t('ext.readeckButton.configure.connect_to_readeck'); ?></button>
+        <button type="submit" class="btn btn-important"><?= _t('ext.karakeepButton.configure.connect_to_karakeep'); ?></button>
       </div>
     </div>
   </form>
 <?php elseif (!$this->isEnabled()) : ?>
   <p class="alert alert-error">
-    <?= _t('ext.readeckButton.configure.extension_disabled'); ?>
+    <?= _t('ext.karakeepButton.configure.extension_disabled'); ?>
   </p>
 <?php endif ?>
 
 <?php if (!empty($username) && !empty($api_token) && !empty($instance_url)) : ?>
   <p class="alert alert-success">
-    <?= _t('ext.readeckButton.configure.connected_to_readeck', $username, $api_token, $instance_url); ?>
+    <?= _t('ext.karakeepButton.configure.connected_to_karakeep', $username, $api_token, $instance_url); ?>
   </p>
-  <form action="<?= _url('readeckButton', 'revokeAccess'); ?>" method="post">
+  <form action="<?= _url('karakeepButton', 'revokeAccess'); ?>" method="post">
     <input type="hidden" name="_csrf" value="<?= FreshRSS_Auth::csrfToken(); ?>" />
     <div class="form-group form-actions">
       <div class="group-controls">
-        <button type="submit" class="btn btn-important"><?= _t('ext.readeckButton.configure.revoke_access'); ?></button>
+        <button type="submit" class="btn btn-important"><?= _t('ext.karakeepButton.configure.revoke_access'); ?></button>
       </div>
     </div>
   </form>
