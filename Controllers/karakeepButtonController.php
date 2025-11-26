@@ -154,7 +154,6 @@ class FreshExtension_karakeepButton_Controller extends Minz_ActionController
     $instance_url = FreshRSS_Context::userConf()->attributeString('karakeep_instance_url');
     $curl = $this->getCurlBase($instance_url . "/api/v1" . $endpoint);
     curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_data));
 
     $response = curl_exec($curl);
